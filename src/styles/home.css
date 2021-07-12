@@ -1,0 +1,65 @@
+.content {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  /* Criação de 2 colunas cada uma 
+    ocupando uma porcentagem da tela */
+
+  grid-template-rows: 11.4rem 1fr;
+  /* Criação de 2 linhas a primeira 
+    com 11.4rem(114px) e a segunda
+    com 1fr(ocupa o que sobrou, pois
+    divide em 1fração) */
+
+  grid-template-areas:
+    "header header"
+    "left right";
+}
+
+header {
+  grid-area: header;
+}
+
+#bg {
+  grid-area: left;
+
+  background: url("../assets/home-bg-img.svg") no-repeat top/contain;
+  /* 'url()' chama a imagem */
+  /* 'no-repeat' pra imagem chamada não se
+  replicar mais de uma vez */
+  /* 'top/contain' se alinhar a partir do topo e
+  se encaixar ao tamanho da 'div' que se encontra */
+}
+
+main {
+  grid-area: right;
+
+  display: flex;
+  align-items: center;
+}
+
+main .container {
+  width: min(36.3rem 100%);
+  /* 'min(36.3rem 100%)' sempre dara
+    preferência ao menor, neste caso o '36.3rem'
+    porém se oo '100%' começar a ser o menor
+    a função escolhe ele*/
+}
+
+main h2 {
+  font-family: "Poppins", sans-serif;
+  color: var(--black);
+  font-size: clamp(20px, 5vw, 2.8rem);
+  margin-bottom: 2.4rem;
+}
+
+input {
+  border: 0.2rem solid var(--grey-blue);
+  padding: 0 1.6rem;
+}
+
+input,
+button,
+.button {
+  width: 100%;
+  margin-bottom: 1.8rem;
+}

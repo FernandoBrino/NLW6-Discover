@@ -28,6 +28,12 @@ header {
   replicar mais de uma vez */
   /* 'top/contain' se alinhar a partir do topo e
   se encaixar ao tamanho da 'div' que se encontra */
+  background-position-x: -10rem;
+  /* 'background-positio-x' vai mover apenas a imagem,
+  aoo invés de movimentar a 'div' inteira, com um 
+  'margin-left' por exemplo, e é claro por não mover a 
+  'div' inteira, não gera o 'scroll'. O 'x' ou o 'y'
+  é o eixo que o elemento vai se mover.*/
 }
 
 main {
@@ -35,10 +41,11 @@ main {
 
   display: flex;
   align-items: center;
+  margin-top: -12rem;
 }
 
 main .container {
-  width: min(36.3rem 100%);
+  width: min(36.3rem, 100%);
   /* 'min(36.3rem 100%)' sempre dara
     preferência ao menor, neste caso o '36.3rem'
     porém se oo '100%' começar a ser o menor
@@ -62,4 +69,53 @@ button,
 .button {
   width: 100%;
   margin-bottom: 1.8rem;
+}
+
+/* SEPARATOR LINE */
+.separator {
+  display: flex;
+  align-items: center;
+
+  margin: 4rem 0;
+}
+
+.separator div:nth-child(2) {
+  color: var(--grey-blue);
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  padding: 0 1.35rem;
+  line-height: 0;
+}
+
+.separator div:nth-child(1),
+.separator div:nth-child(3) {
+  /* 'nth-child' vai pegar o filho dentro do 'separator'
+  que é uma 'div:', passando nos parâmetros a posição. */
+  background: var(--grey-blue);
+  width: 100%;
+  height: 1px;
+}
+
+/* CREATE BALLS */
+.ball {
+  width: 21.2rem;
+  height: 21.2rem;
+  background: var(--blue);
+  clip-path: circle();
+  /* 'clap-path: circle()' cria o circulo*/
+  opacity: 0.1;
+
+  position: fixed;
+}
+
+.ball.top {
+  top: -46rem;
+  right: -35rem;
+  width: 63.3rem;
+  height: 63.3rem;
+}
+
+.ball.bottom {
+  bottom: -15rem;
+  right: 5.6rem;
 }

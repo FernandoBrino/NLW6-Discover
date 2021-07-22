@@ -23,10 +23,24 @@ deleteButton.forEach(button =>{
 })
 
 function handleClick(event, check = true) {
+    event.preventDefault()
+    // Dizer que os 'links' do 'actions', não se comportam como 'links'
     const text = check ? "Marcar como lida" : "Excluir"
+    const slug = check ? "check" : "delete"
+    const roomId = document.querySelector("#room-id").dataset.id
+    const questionId = event.target.dataset.id
+    //Pega o 'event' que recebemos como parâmetro na função, o evento de click
+    //aconteceu na tag 'a' logo ele leva a tag inteira, usamos 'target', pra pegar
+    //o elemento que aconteceu o evento, e pegamos o id.
+
+    const form = document.querySelector(".modal form")
+    form.setAttribute("action",`/room/${roomId}/${questionId}/${slug}`)
+    //'setAttribute' passo o atributo que vou mudar, o que vou mudar
 
     modalTitle.innerHTML = `${text} esta pergunta`
     modalDescription.innerHTML = `Tem certeza que deseja ${text.toLowerCase()} esta pergunta?`
+    modalButton.innerHTML = `Sim, ${text.toLowerCase()}`
+    check?modalButton.classList.remove("red") : modalButton.classList.add("red")
 
     //abrir modal
     modal.open()

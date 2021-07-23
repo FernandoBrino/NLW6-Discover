@@ -5,24 +5,51 @@ module.exports = {
         const db = await Database()
         const pass = req.body.password
         let roomId
+        let isRoom = true
 
-        for(var i = 0; i < 6; i++){
-            i == 0 ? roomId = Math.floor(Math.random() * 10).toString() :
-            roomId += Math.floor(Math.random() * 10).toString()
-            //Transformamos a conta em 'string' para que seja feita
-            // uma concatenação, ao invés de uma soma
+        while(isRoom){
+            // Gera  o numero da sala
+            for(var i = 0; i < 6; i++){
+                i == 0 ? roomId = Math.floor(Math.random() * 10).toString() :
+                roomId += Math.floor(Math.random() * 10).toString()
+                //Transformamos a conta em 'string' para que seja feita
+                // uma concatenação, ao invés de uma soma
+            }
+            
+            // Verificar se esse numero já existe
+            const roomsExistIds = await db.all(`SELECT id FROM rooms`)
+            // O '*' traz todos do banco, é possível escrever só o que eu desjo, ou os que desejo com ',' 
+            
+            isRoom = roomsExistIds.some(roomsExistId => roomsExistId === roomId)
+            // A função 'some()' vai comparar 'roomsExistIds' comm 'roomId'
+            // caso de 'match' ele retorna true
+
+
+            if(!isRoom) {
+                // Insere a sala no banco
+                await db.run(`INSERT INTO rooms (
+                    id,
+                    pass
+                )VALUES(
+                    ${parseInt(roomId)},
+                    "${pass}"
+                )`)
+            }
         }
-
-        await db.run(`INSERT INTO rooms (
-            id,
-            pass
-        )VALUES(
-            ${parseInt(roomId)},
-            ${pass}
-        )`)
 
         await db.close()
 
         res.redirect(`/room/${roomId}`)
+    },
+
+    async open(req, res) {
+        const db = await Database()
+        const roomId = req.params.room
+        const questions = await db.all(`SELECT * FROM questions WHERE room = ${roomId} and read = 0`)
+        // Seleciona todas as question que tem o room = roomId que desejamos
+        const questionsRead = await db.all(`SELECT * FROM questions WHERE room = ${roomId} and read = 1`)
+
+        res.render("room", {roomId: roomId, questions: questions, questionsRead: questionsRead})
+
     }
 }
